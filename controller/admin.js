@@ -15,7 +15,7 @@ exports.login = async (req, res) => {
             if (isValid) {
                 const token = jwt.sign({
                     email: foundAdmin.email,
-                    id: foundAdmin._id
+                    id: foundAdmin._id,
                 }, config.secret, {
                     expiresIn: 60 * 60 * 24 * 7
                 });
@@ -23,7 +23,8 @@ exports.login = async (req, res) => {
                 return {
                     "code": 2,
                     "message": "Login successful",
-                    "token": token
+                    "token": token,
+                    "isAdmin": foundAdmin.parent ? false : true
                 }
             }
             return {
