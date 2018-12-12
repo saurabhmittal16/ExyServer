@@ -2,21 +2,22 @@ const boom = require('boom');
 const jwt = require('jsonwebtoken');
 
 const config = require('../config');
-const Admin = require('../models/admin');
+const User = require('../models/user');
 
 exports.login = async (req, res) => {
     const {email, password} = req.body;
 
     try {
-        const foundAdmin = await Admin.findOne({email: email});
-        if (foundAdmin) {
-            const isValid = foundAdmin.comparePassword(password);
-    
+        const foundUser = await User.findOne({email: email});
+
+        if (foundUser) {
+            const isValid = foundUser.comparePassword(password);
+
             if (isValid) {
                 const token = jwt.sign({
-                    email: foundAdmin.email,
-                    id: foundAdmin._id,
-                    isAdmin: foundAdmin.parent ? false : true
+                    email: foundUser.email,
+                    id: foundUser._id,
+                    isUser: true
                 }, config.secret, {
                     expiresIn: 60 * 60 * 24 * 7
                 });
@@ -25,7 +26,6 @@ exports.login = async (req, res) => {
                     "code": 2,
                     "message": "Login successful",
                     "token": token,
-                    "isAdmin": foundAdmin.parent ? false : true
                 }
             }
             return {
@@ -40,15 +40,15 @@ exports.login = async (req, res) => {
         }
     } catch (err) {
         console.log(err);
-        throw boom.boomify(err)
+        throw boom.boomify(err);
     }
 }
 
 exports.signup = async (req, res) => {
-    const {email, password, name, mobile} = req.body;
+    const {name, email, password, gender, age, mobile} = req.body;
 
-    const admin = await Admin.findOne({email: email});
-    if (admin) {
+    const user = await User.findOne({email: email});
+    if (user) {
         return {
             "code": 3,
             "message": "Email already registered"
@@ -56,20 +56,23 @@ exports.signup = async (req, res) => {
     }
 
     try {
-        const createdAdmin = await Admin.create({
+        const createdUser = await User.create({
+            name,
             email,
             password,
-            name,
+            gender,
+            age,
             mobile
         });
 
         const token = jwt.sign({
-            id: createdAdmin._id,
-            email: createdAdmin.email
+            id: createdUser._id,
+            email: createdUser.email,
+            isUser: true
         }, config.secret, {
             expiresIn: 60 * 60 * 24 * 7
         });
-        
+
         return {
             "message": "Account created",
             "code": 1,

@@ -15,7 +15,13 @@ app.register(require('fastify-url-data'), (err) => {
 app.addHook('preHandler', (request, reply, next) => {
     const urlData = request.urlData();
     
-    if (urlData.path === '/api/auth/admin/signup' || urlData.path === '/api/auth/admin/login') {
+    if (
+        urlData.path === '/api/auth/admin/signup' || 
+        urlData.path === '/api/auth/admin/login' ||
+        urlData.path === '/api/auth/user/login' || 
+        urlData.path === '/api/auth/user/signup' 
+        
+    ) {
         // No checking for token if auth routes
         next();
     } else {
