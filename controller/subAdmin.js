@@ -1,5 +1,5 @@
-const boom = require('boom');
-const Admin = require('../models/admin');       // using the same Admin model
+const Admin = require('../models/admin');
+const err = require('../utils/errorGenerator');
 
 // Adding a new sub-admin
 exports.newSubAdmin = async (req, res) => {
@@ -56,21 +56,19 @@ exports.getSubAdmin = async (req, res) => {
     const id = req.params.id;
 
     try {
-        const subAdmin = await Admin.findOne({_id: id});
+        const subAdmin = await Admin.findOne({_id: id}, {children: 0});
         if (subAdmin) {
             if (subAdmin.parent == loginId) {
                 return subAdmin
             } else {
-                let error = new boom("Access denied", {statusCode: 403});
-                return error.output.payload;
+                return err(403);
             }
         } else {
-            let error = new boom("Profile not found", {statusCode: 404});
-            return error.output.payload;
+            return err(404);
         }
     } catch (err) {
         console.log(err);
-        throw boom.boomify(err);
+        return err(500);
     }
 }
 

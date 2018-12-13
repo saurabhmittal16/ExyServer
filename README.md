@@ -54,3 +54,22 @@ Robo3T
     yarn run start
     ```
 6) Use postman to send a GET request to [localhost:3000](localhost:3000) to test the server
+
+
+## Information about the models -
+
+### Admin -
+1) Common model for Admin and Sub-Admins.
+2) Admins won't have the 'parent' attribute and sub-admins won't have the 'children' attribute.
+
+### Survey -
+1) A type attribute to store the the type of the survey, possible values - 'single', 'multiple', 'rating', 'feedback'.
+
+### Response -
+1) Four attributes to store the different types of responses.
+2) Type of survey decides the attribute in which data is stored, other three would be null.
+3) The attributes are named same as the type of the survey -  
+   1) single - a number between 1 and the total number of options
+   2) multiple - an array of number each value between 1 and the total options
+   3) rating - a number between 1 and 5
+   4) feedback - a string storing the user's feedback
