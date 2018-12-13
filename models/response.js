@@ -9,19 +9,15 @@ const responseSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    single: {
+    response: {
         type: Number,
         default: null
     },
-    mutliple: [{
+    response: [{
         type: Number,
         default: null
     }],
-    rating: {
-        type: Number,
-        default: null
-    },
-    feedback: {
+    response: {
         type: String,
         default: null
     }

@@ -11,8 +11,8 @@ const routes = [
     {
         method: 'GET',
         url: '/api/survey/:id',
-        handler: controller.getSurvey
-    }
+        handler: controller.getSurveyDetails
+    },
 ];
 
 module.exports = routes;

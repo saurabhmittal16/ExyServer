@@ -24,12 +24,19 @@ exports.newSubAdmin = async (req, res) => {
         });
 
         const parentAdmin = await Admin.findOne({_id: id});
-        parentAdmin.children.push(createdAdmin._id);
-        parentAdmin.save();
-        
-        return {
-            "message": "Account created",
-            "code": 1,
+
+        if (parentAdmin) {
+            parentAdmin.children.push(createdAdmin._id);
+            parentAdmin.save();
+            
+            return {
+                "message": "Account created",
+                "code": 1,
+            }
+        } else {
+            createdAdmin.delete();
+            console.log("No Admin for this new Sub-Admin");
+            return err(500);
         }
     } catch (err) {
         console.log(err);

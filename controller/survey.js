@@ -25,23 +25,35 @@ exports.newSurvey = async (req, res) => {
             approved: isAdmin
         });
 
-        return {
-            "success": true,
-            "message": "Survey added",
-        };
+        if (createdSurvey) {
+            return {
+                "success": true,
+                "message": "Survey added",
+            };
+        } else {
+            console.log("Failed to add survey");
+            return err(500);
+        }
 
-    } catch (err) {
+    } catch (error) {
+        console.log(error);
         return err(500);
     }
 }
 
-exports.getSurvey = async (req, res) => {
+exports.getSurveyDetails = async (req, res) => {
     const id = req.params.id;
 
     try {
         const survey = await Survey.findOne({_id: id}, {responses: 0, createdBy: 0});
-        return survey;
-    } catch (err) {
+        if (survey) {
+            return survey;
+        } else {
+            console.log("No such survey found");
+            return err(404);
+        }
+    } catch (error) {
+        console.log(error);
         return err(500);
     }
 }

@@ -66,10 +66,8 @@ Robo3T
 1) A type attribute to store the the type of the survey, possible values - 'single', 'multiple', 'rating', 'feedback'.
 
 ### Response -
-1) Four attributes to store the different types of responses.
-2) Type of survey decides the attribute in which data is stored, other three would be null.
-3) The attributes are named same as the type of the survey -  
-   1) single - a number between 1 and the total number of options
-   2) multiple - an array of number each value between 1 and the total options
-   3) rating - a number between 1 and 5
-   4) feedback - a string storing the user's feedback
+~~1) Four attributes to store the different types of responses.~~  
+~~2) Type of survey decides the attribute in which data is stored, other three would be null.~~  
+~~3) The attributes are named same as the type of the survey-~~ 
+
+1) A field named response defined for 4 different types of responses.
