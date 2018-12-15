@@ -57,7 +57,7 @@ mongoose.connect(mongo_url, {useNewUrlParser: true})
     .then(
         () => {
             console.log("Connected to DB")
-            app.listen(3000, function(err, address) {
+            app.listen(8000, function(err, address) {
                 if (err) {
                     fastify.log.error(err);
                     process.exit(1);
