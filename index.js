@@ -1,12 +1,15 @@
 const fastify = require('fastify');
 const mongoose = require('mongoose');
 const jsonwebtoken = require('jsonwebtoken');
+const cors = require('cors');
 const app = fastify();
 
 const mongo_url = "mongodb://localhost:27017/exxy";
 
 const config = require('./config');
 const routes = require('./routes/index');
+
+app.use(cors());
 
 app.register(require('fastify-url-data'), (err) => {
     if (err) throw err
@@ -31,9 +34,11 @@ app.addHook('preHandler', (request, reply, next) => {
             token = token.split(" ")[1];
             jsonwebtoken.verify(token, config.secret, (err, decoded) => {
                 if (err) {
+                    console.log(err);
                     reply.code(401)
                     next(new Error("Authentication failed"));
                 } else {
+                    console.log("Verified");
                     request.decoded = decoded;
                     next();
                 }
@@ -59,7 +64,7 @@ mongoose.connect(mongo_url, {useNewUrlParser: true})
             console.log("Connected to DB")
             app.listen(8000, function(err, address) {
                 if (err) {
-                    fastify.log.error(err);
+                    console.log(err);
                     process.exit(1);
                 }
                 console.log(`Server listening on ${address}`);

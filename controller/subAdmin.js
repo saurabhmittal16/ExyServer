@@ -49,7 +49,7 @@ exports.getAllSubAdmin = async (req, res) => {
     const {id} = req.decoded;
 
     try {
-        const subAdmins = await Admin.find({parent: id}, {children: 0, parent: 0});
+        const subAdmins = await Admin.find({parent: id}, {children: 0, parent: 0, password: 0});
         return subAdmins;
     } catch (err) {
         console.log(err);
@@ -63,7 +63,7 @@ exports.getSubAdmin = async (req, res) => {
     const id = req.params.id;
 
     try {
-        const subAdmin = await Admin.findOne({_id: id}, {children: 0});
+        const subAdmin = await Admin.findOne({_id: id}, {children: 0, parent: 0, password: 0});
         if (subAdmin) {
             if (subAdmin.parent == loginId) {
                 return subAdmin
