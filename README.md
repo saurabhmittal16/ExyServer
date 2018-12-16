@@ -71,3 +71,9 @@ Robo3T
 ~~3) The attributes are named same as the type of the survey-~~ 
 
 1) A field named response defined for 4 different types of responses.
+
+
+## To-Do -
+1) Add category, approval logic and result policy to survey model.  
+2) Add Albums to admin profile.  
+3) Validate start is before end when adding survey.  

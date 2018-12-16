@@ -38,7 +38,6 @@ app.addHook('preHandler', (request, reply, next) => {
                     reply.code(401)
                     next(new Error("Authentication failed"));
                 } else {
-                    console.log("Verified");
                     request.decoded = decoded;
                     next();
                 }
