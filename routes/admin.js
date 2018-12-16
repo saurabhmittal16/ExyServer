@@ -13,6 +13,11 @@ const routes = [
         url: '/api/auth/admin/login',
         schema: schema.login,
         handler: controller.login
+    },
+    {
+        method: 'GET',
+        url: '/api/admin/details',
+        handler: controller.details
     }
 ];
 

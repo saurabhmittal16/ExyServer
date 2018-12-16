@@ -83,3 +83,19 @@ exports.signup = async (req, res) => {
         return res.code(500);
     }
 }
+
+exports.details = async (req, res) => {
+    const { id } = req.decoded;
+
+    try {
+        const foundAdmin = await Admin.findOne({_id: id}, {children: 0, password: 0});
+        if (foundAdmin.parent === undefined) {
+            return foundAdmin;
+        } else {
+            return res.code(404);
+        }
+    } catch (err) {
+        console.log(err);
+        return res.code(404);
+    }
+}

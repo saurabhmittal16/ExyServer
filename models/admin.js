@@ -17,6 +17,11 @@ const adminSchema = new mongoose.Schema({
     children: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin'
+    }],
+
+    albums: [{
+        image: String,
+        title: String
     }]
 }, {
     versionKey: false
