@@ -1,5 +1,4 @@
 const Admin = require('../models/admin');
-const err = require('../utils/errorGenerator');
 
 // Adding a new sub-admin
 exports.newSubAdmin = async (req, res) => {
@@ -10,6 +9,7 @@ exports.newSubAdmin = async (req, res) => {
     if (admin) {
         return {
             "code": 3,
+            "sucess": false,
             "message": "Email already registered"
         }
     }
@@ -30,17 +30,18 @@ exports.newSubAdmin = async (req, res) => {
             parentAdmin.save();
             
             return {
-                "message": "Account created",
                 "code": 1,
+                "sucess": true,
+                "message": "Account created",
             }
         } else {
             createdAdmin.delete();
             console.log("No Admin for this new Sub-Admin");
-            return err(500);
+            return res.code(500);
         }
     } catch (err) {
         console.log(err);
-        throw boom.boomify(err);
+        return res.code(500);
     }
 }
 
@@ -53,7 +54,7 @@ exports.getAllSubAdmin = async (req, res) => {
         return subAdmins;
     } catch (err) {
         console.log(err);
-        throw boom.boomify(err);
+        return res.code(500);
     }
 }
 
@@ -68,14 +69,14 @@ exports.getSubAdmin = async (req, res) => {
             if (subAdmin.parent == loginId) {
                 return subAdmin
             } else {
-                return err(403);
+                return res.code(403);
             }
         } else {
-            return err(404);
+            return res.code(404);
         }
     } catch (err) {
         console.log(err);
-        return err(500);
+        return res.code(500);
     }
 }
 

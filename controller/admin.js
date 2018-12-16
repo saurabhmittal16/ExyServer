@@ -1,4 +1,3 @@
-const boom = require('boom');
 const jwt = require('jsonwebtoken');
 
 const config = require('../config');
@@ -23,24 +22,26 @@ exports.login = async (req, res) => {
 
                 return {
                     "code": 2,
+                    "success": true,
                     "message": "Login successful",
                     "token": token,
-                    "isAdmin": foundAdmin.parent ? false : true
                 }
             }
             return {
                 "code": 4,
+                "sucess": false,
                 "message": "Invalid password"
             }
         } else {
             return {
                 "code": 5,
+                "sucess": false,
                 "message": "No such user exists"
             }
         }
     } catch (err) {
         console.log(err);
-        throw boom.boomify(err)
+        return res.code(500);
     }
 }
 
@@ -51,6 +52,7 @@ exports.signup = async (req, res) => {
     if (admin) {
         return {
             "code": 3,
+            "sucess": false,
             "message": "Email already registered"
         }
     }
@@ -71,12 +73,13 @@ exports.signup = async (req, res) => {
         });
         
         return {
-            "message": "Account created",
             "code": 1,
+            "message": "Account created",
+            "success": true,
             "token": token
         }
     } catch (err) {
         console.log(err);
-        throw boom.boomify(err);
+        return res.code(500);
     }
 }

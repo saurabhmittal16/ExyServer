@@ -1,4 +1,3 @@
-const boom = require('boom');
 const jwt = require('jsonwebtoken');
 
 const config = require('../config');
@@ -40,7 +39,7 @@ exports.login = async (req, res) => {
         }
     } catch (err) {
         console.log(err);
-        throw boom.boomify(err);
+        return res.code(500);
     }
 }
 
@@ -80,6 +79,6 @@ exports.signup = async (req, res) => {
         }
     } catch (err) {
         console.log(err);
-        throw boom.boomify(err);
+        return res.code(500);
     }
 }

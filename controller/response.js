@@ -1,11 +1,9 @@
-const err = require('../utils/errorGenerator');
-
 const Survey = require('../models/survey');
 const Response = require('../models/response');
 
 exports.newResponse = async (req, res) => {
     if (!req.decoded.isUser) {
-        return err(403);
+        return res.code(403);
     }
 
     const surveyID = req.params.id;
@@ -30,17 +28,17 @@ exports.newResponse = async (req, res) => {
                         "success": true
                     }
                 } else {
-                    return err(500);
+                    return res.code(500);
                 }
             } catch (error) {
                 console.log(error);
-                return err(500);
+                return res.code(500);
             }
         } else {
-            return err(404);
+            return res.code(404);
         }
     } catch (error) {
         console.log(error);
-        return err(500);
+        return res.code(500);
     }
 }

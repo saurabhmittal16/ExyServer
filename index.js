@@ -2,7 +2,9 @@ const fastify = require('fastify');
 const mongoose = require('mongoose');
 const jsonwebtoken = require('jsonwebtoken');
 const cors = require('cors');
-const app = fastify();
+const app = fastify({
+    ignoreTrailingSlash: true
+});
 
 const mongo_url = "mongodb://localhost:27017/exxy";
 
@@ -17,7 +19,6 @@ app.register(require('fastify-url-data'), (err) => {
 
 app.addHook('preHandler', (request, reply, next) => {
     const urlData = request.urlData();
-    
     if (
         urlData.path === '/api/auth/admin/signup' || 
         urlData.path === '/api/auth/admin/login' ||
@@ -29,9 +30,9 @@ app.addHook('preHandler', (request, reply, next) => {
         next();
     } else {
         let token = request.headers['authorization'];
-
         if (token) {
             token = token.split(" ")[1];
+            console.log("Verified");
             jsonwebtoken.verify(token, config.secret, (err, decoded) => {
                 if (err) {
                     console.log(err);
