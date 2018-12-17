@@ -74,6 +74,6 @@ Robo3T
 
 
 ## To-Do -
--[ ] Add category, approval logic and result policy to survey model.  
--[ ] Add Albums to admin profile.  
--[ ] Validate start is before end when adding survey.  
+- [ ] Add category, approval logic and result policy to survey model.  
+- [x] ~~Add Albums to admin profile.~~
+- [x] ~~Validate start is before end when adding survey.~~  

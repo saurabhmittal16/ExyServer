@@ -8,6 +8,10 @@ exports.newSurvey = async (req, res) => {
         return res.code(403);
     }
 
+    if (start.valueOf() > end.valueOf()) {
+        return res.code(500);
+    }
+
     try {
         const createdSurvey = await Survey.create({
             question,

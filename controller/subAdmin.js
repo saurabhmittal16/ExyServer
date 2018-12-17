@@ -2,8 +2,12 @@ const Admin = require('../models/admin');
 
 // Adding a new sub-admin
 exports.newSubAdmin = async (req, res) => {
-    const {email, name, password, mobile} = req.body;
-    const {id} = req.decoded;
+    const {email, name, password, mobile, image} = req.body;
+    const {id, isAdmin} = req.decoded;
+
+    if (!isAdmin) {
+        return res.code(403);
+    }
 
     const admin = await Admin.findOne({email: email});
     if (admin) {
@@ -20,6 +24,7 @@ exports.newSubAdmin = async (req, res) => {
             password,
             name,
             mobile,
+            image,
             parent: id
         });
 
@@ -47,7 +52,11 @@ exports.newSubAdmin = async (req, res) => {
 
 // Get all sub-admins of an admin
 exports.getAllSubAdmin = async (req, res) => {
-    const {id} = req.decoded;
+    const {id, isAdmin} = req.decoded;
+
+    if (!isAdmin) {
+        return res.code(403);
+    }
 
     try {
         const subAdmins = await Admin.find({parent: id}, {children: 0, parent: 0, password: 0});
@@ -60,8 +69,13 @@ exports.getAllSubAdmin = async (req, res) => {
 
 // Get details of a single sub-admin
 exports.getSubAdmin = async (req, res) => {
+    const isAdmin = req.decoded.isAdmin;
     const loginId = req.decoded.id;
     const id = req.params.id;
+
+    if (!isAdmin) {
+        return res.code(403);
+    }
 
     try {
         const subAdmin = await Admin.findOne({_id: id}, {children: 0, parent: 0, password: 0});
