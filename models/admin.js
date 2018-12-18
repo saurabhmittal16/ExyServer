@@ -8,6 +8,11 @@ const adminSchema = new mongoose.Schema({
     password: String,
     mobile: String,
 
+    canApprove: {
+        type: Boolean,
+        default: true
+    },
+
     // NULL in case of super-admin
     parent: {
         type: mongoose.Schema.Types.ObjectId,

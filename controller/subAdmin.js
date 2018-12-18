@@ -2,7 +2,7 @@ const Admin = require('../models/admin');
 
 // Adding a new sub-admin
 exports.newSubAdmin = async (req, res) => {
-    const {email, name, password, mobile, image} = req.body;
+    const {email, name, password, mobile, image, canApprove} = req.body;
     const {id, isAdmin} = req.decoded;
 
     if (!isAdmin) {
@@ -25,7 +25,8 @@ exports.newSubAdmin = async (req, res) => {
             name,
             mobile,
             image,
-            parent: id
+            parent: id,
+            canApprove: canApprove
         });
 
         const parentAdmin = await Admin.findOne({_id: id});

@@ -89,11 +89,7 @@ exports.details = async (req, res) => {
 
     try {
         const foundAdmin = await Admin.findOne({_id: id}, {children: 0, password: 0});
-        if (foundAdmin.parent === undefined) {
-            return foundAdmin;
-        } else {
-            return res.code(404);
-        }
+        return foundAdmin;
     } catch (err) {
         console.log(err);
         return res.code(404);
