@@ -55,7 +55,6 @@ Robo3T
     ```
 6) Use postman to send a GET request to [localhost:3000](localhost:3000) to test the server
 
-
 ## Information about the models -
 
 ### Admin -
@@ -72,8 +71,9 @@ Robo3T
 
 1) A field named response defined for 4 different types of responses.
 
-
 ## To-Do -
-- [ ] Add category, approval logic and result policy to survey model.  
+- [ ] Result policy to survey model.  
+- [ ] Publish and unpublished to model.
+- [x] ~~Add category, approval logic~~ 
 - [x] ~~Add Albums to admin profile.~~
 - [x] ~~Validate start is before end when adding survey.~~  

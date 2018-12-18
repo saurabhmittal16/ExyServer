@@ -9,6 +9,8 @@ const surveySchema = new mongoose.Schema({
         option_image: String
     }],
     approved: Boolean,
+    album: String,
+    resultPolicy: String,
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin'

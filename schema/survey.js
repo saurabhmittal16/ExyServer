@@ -14,6 +14,15 @@ module.exports = {
                     type: 'string',
                     format: 'date-time'
                 },
+                approved: {
+                    type: 'boolean',
+                },
+                album: {
+                    type: 'string'
+                },
+                resultPolicy: {
+                    type: 'string'
+                },
                 options: {
                     type: 'array',
                     items: {
@@ -25,7 +34,7 @@ module.exports = {
                     }
                 }
             },
-            required: ['question', 'image', 'type', 'start', 'end']
+            required: ['question', 'image', 'type', 'start', 'end', 'approved']
         }
     }
 }

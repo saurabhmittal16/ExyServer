@@ -1,7 +1,7 @@
 const Survey = require('../models/survey');
 
 exports.newSurvey = async (req, res) => {
-    const {question, image, type, start, end, options} = req.body;
+    const {question, image, type, start, end, options, approved, album, resultPolicy} = req.body;
     const {email, id, isAdmin} = req.decoded;
 
     if (req.isUser) {
@@ -14,6 +14,8 @@ exports.newSurvey = async (req, res) => {
 
     try {
         const createdSurvey = await Survey.create({
+            album,
+            resultPolicy,
             question,
             image,
             type,
@@ -21,10 +23,11 @@ exports.newSurvey = async (req, res) => {
             end,
             options,
             createdBy: id,
-            approved: isAdmin
+            approved: approved
         });
 
         if (createdSurvey) {
+            console.log(createdSurvey);
             return {
                 "success": true,
                 "message": "Survey added",

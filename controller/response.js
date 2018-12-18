@@ -12,7 +12,8 @@ exports.newResponse = async (req, res) => {
 
     try {
         const foundSurvey = await Survey.findOne({_id: surveyID});
-        if (foundSurvey) {
+        const now = new Date();
+        if (foundSurvey && foundSurvey.end.valueOf() > now.valueOf()) {
             try {
                 const createdResponse = await Response.create({
                     survey: surveyID,
