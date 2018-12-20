@@ -72,8 +72,9 @@ Robo3T
 1) A field named response defined for 4 different types of responses.
 
 ## To-Do -
-- [ ] Result policy to survey model.  
 - [ ] Publish and unpublished to model.
+- [ ] Change subAdmin controls to return subAdmin when added.
+- [x] Result policy to survey model.  
 - [x] ~~Add category, approval logic~~ 
 - [x] ~~Add Albums to admin profile.~~
 - [x] ~~Validate start is before end when adding survey.~~  

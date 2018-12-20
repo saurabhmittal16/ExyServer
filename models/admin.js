@@ -27,7 +27,7 @@ const adminSchema = new mongoose.Schema({
 
     albums: [{
         image: String,
-        title: String
+        name: String
     }]
 }, {
     versionKey: false
