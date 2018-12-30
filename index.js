@@ -32,14 +32,14 @@ app.addHook('preHandler', (request, reply, next) => {
         let token = request.headers['authorization'];
         if (token) {
             token = token.split(" ")[1];
-            console.log("Verified");
             jsonwebtoken.verify(token, config.secret, (err, decoded) => {
                 if (err) {
                     console.log(err);
                     reply.code(401)
-                    next(new Error("Authentication failed"));
+                    next(new Error("Token expired"));
                 } else {
                     request.decoded = decoded;
+                    console.log("Verified");
                     next();
                 }
             });
