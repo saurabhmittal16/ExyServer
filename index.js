@@ -20,6 +20,7 @@ app.register(require('fastify-url-data'), (err) => {
 app.addHook('preHandler', (request, reply, next) => {
     const urlData = request.urlData();
     if (
+        urlData.path === '/' ||
         urlData.path === '/api/auth/admin/signup' || 
         urlData.path === '/api/auth/admin/login' ||
         urlData.path === '/api/auth/user/login' || 
@@ -62,7 +63,7 @@ mongoose.connect(mongo_url, {useNewUrlParser: true})
     .then(
         () => {
             console.log("Connected to DB")
-            app.listen(8000, function(err, address) {
+            app.listen(8000, '0.0.0.0', function(err, address) {
                 if (err) {
                     console.log(err);
                     process.exit(1);
