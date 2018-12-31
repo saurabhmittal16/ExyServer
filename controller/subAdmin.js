@@ -39,6 +39,7 @@ exports.newSubAdmin = async (req, res) => {
                 "code": 1,
                 "sucess": true,
                 "message": "Account created",
+                "data": createdAdmin
             }
         } else {
             createdAdmin.delete();

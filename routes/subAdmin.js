@@ -4,13 +4,13 @@ const schema = require('../schema/admin');
 const routes = [
     {
         method: 'POST',
-        url: '/api/sub-admin/',
+        url: '/api/sub-admin',
         handler: controller.newSubAdmin,
         schema: schema.signup
     },
     {
         method: 'GET',
-        url: '/api/sub-admin/',
+        url: '/api/sub-admin',
         handler: controller.getAllSubAdmin
     },
     {
