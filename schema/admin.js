@@ -26,6 +26,9 @@ module.exports = {
                     type: 'string',
                     pattern: '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
                 },
+                image: {
+                    type: 'string'
+                },
                 password: {type: 'string'},
                 mobile: {
                     type: 'string',
@@ -33,7 +36,7 @@ module.exports = {
                     maxLength: 10
                 }
             },
-            required: ['email', 'password', 'name', 'mobile']
+            required: ['email', 'password', 'name', 'mobile', 'image']
         }
     }
 }

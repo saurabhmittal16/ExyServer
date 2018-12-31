@@ -46,7 +46,7 @@ exports.login = async (req, res) => {
 }
 
 exports.signup = async (req, res) => {
-    const {email, password, name, mobile} = req.body;
+    const {email, password, name, mobile, image} = req.body;
 
     const admin = await Admin.findOne({email: email});
     if (admin) {
