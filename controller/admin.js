@@ -61,22 +61,24 @@ exports.signup = async (req, res) => {
         const createdAdmin = await Admin.create({
             email,
             password,
+            image,
             name,
-            mobile
+            mobile,
+            canApprove: true
         });
 
-        const token = jwt.sign({
-            id: createdAdmin._id,
-            email: createdAdmin.email
-        }, config.secret, {
-            expiresIn: 60 * 60 * 24 * 7
-        });
+        // const token = jwt.sign({
+        //     id: createdAdmin._id,
+        //     email: createdAdmin.email
+        // }, config.secret, {
+        //     expiresIn: 60 * 60 * 24 * 7
+        // });
         
         return {
             "code": 1,
             "message": "Account created",
             "success": true,
-            "token": token
+            // "token": token
         }
     } catch (err) {
         console.log(err);
