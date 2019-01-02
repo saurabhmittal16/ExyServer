@@ -7,7 +7,10 @@ const userSchema = new mongoose.Schema({
     password: String,
     gender: String,
     age: Number,
-    mobile: String
+    mobile: {
+        type: String,
+        unique: true
+    }
 }, {
     versionKey: false
 });

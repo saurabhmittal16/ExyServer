@@ -4,17 +4,16 @@ const config = require('../config');
 const User = require('../models/user');
 
 exports.login = async (req, res) => {
-    const {email, password} = req.body;
+    const {mobile, password} = req.body;
 
     try {
-        const foundUser = await User.findOne({email: email});
+        const foundUser = await User.findOne({mobile: mobile});
 
         if (foundUser) {
             const isValid = foundUser.comparePassword(password);
 
             if (isValid) {
                 const token = jwt.sign({
-                    email: foundUser.email,
                     id: foundUser._id,
                     isUser: true
                 }, config.secret, {
@@ -46,11 +45,11 @@ exports.login = async (req, res) => {
 exports.signup = async (req, res) => {
     const {name, email, password, gender, age, mobile} = req.body;
 
-    const user = await User.findOne({email: email});
+    const user = await User.findOne({mobile: mobile});
     if (user) {
         return {
             "code": 3,
-            "message": "Email already registered"
+            "message": "Mobile already registered"
         }
     }
 
@@ -66,7 +65,6 @@ exports.signup = async (req, res) => {
 
         const token = jwt.sign({
             id: createdUser._id,
-            email: createdUser.email,
             isUser: true
         }, config.secret, {
             expiresIn: 60 * 60 * 24 * 7

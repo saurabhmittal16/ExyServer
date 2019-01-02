@@ -3,13 +3,15 @@ module.exports = {
         body: {
             type: 'object',
             properties: {
-                email: {
+                mobile: {
                     type: 'string',
-                    pattern: '^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$',
+                    pattern: '[6-9][0-9]{9}',
+                    minLength: 10,
+                    maxLength: 10
                 },
                 password: {type: 'string'}
             },
-            required: ['email', 'password']
+            required: ['mobile', 'password']
         }
     },
 
