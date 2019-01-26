@@ -46,6 +46,12 @@ exports.newSurvey = async (req, res) => {
 
 exports.getUnapprovedSurveys = async (req, res) => {
     const { email, id, isAdmin, isUser } = req.decoded;
+    const { page } = req.query;
+
+    const options = {
+        page: page || 1,
+        limit: 2
+    }
 
     if (isUser || !isAdmin) {
         return res.code(403);
@@ -53,24 +59,38 @@ exports.getUnapprovedSurveys = async (req, res) => {
 
     try {
         const foundAdmin = await Admin.findOne({_id: id});
+        
         // combine admin and sub-admin
         const surveyParents = await foundAdmin.children.concat(id);
 
         // surveys created by admin or his/her subadmins
-        const unapprovedSurveys = await Survey.find({
-            createdBy: { $in: surveyParents },
-            approved: false,
-        }, { responses: 0, createdBy: 0, approved: 0 });
+        const unApprovedSurveys = await Survey
+            .find({
+                createdBy: { $in: surveyParents },
+                approved: false,
+            }, { responses: 0, createdBy: 0, approved: 0 })
+            .skip((options.page - 1) * options.limit)
+            .limit(options.limit);
 
-        return unapprovedSurveys;
+        return {
+            data: unApprovedSurveys,
+            page: options.page,
+            last: unApprovedSurveys.length === 0
+        };
     } catch (err) {
-        console.log(error);
+        console.log(err);
         return res.code(500);
     }
 }
 
 exports.getApprovedSurveys = async (req, res) => {
     const { email, id, isAdmin, isUser } = req.decoded;
+    const { page } = req.query;
+
+    const options = {
+        page: page || 1,
+        limit: 2
+    }
 
     if (isUser || !isAdmin) {
         return res.code(403);
@@ -78,18 +98,26 @@ exports.getApprovedSurveys = async (req, res) => {
 
     try {
         const foundAdmin = await Admin.findOne({_id: id});
+        
         // combine admin and sub-admin
         const surveyParents = await foundAdmin.children.concat(id);
 
         // surveys created by admin or his/her subadmins
-        const approvedSurveys = await Survey.find({
-            createdBy: { $in: surveyParents },
-            approved: true,
-        }, { responses: 0, createdBy: 0, approved: 0 });
+        const approvedSurveys = await Survey
+            .find({
+                createdBy: { $in: surveyParents },
+                approved: true,
+            }, { responses: 0, createdBy: 0, approved: 0 })
+            .skip((options.page - 1) * options.limit)
+            .limit(options.limit);
 
-        return approvedSurveys;
+        return {
+            data: approvedSurveys,
+            page: options.page,
+            last: unApprovedSurveys.length === 0
+        };
     } catch (err) {
-        console.log(error);
+        console.log(err);
         return res.code(500);
     }
 }
