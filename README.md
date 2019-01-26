@@ -73,7 +73,7 @@ Robo3T
 
 ## To-Do -
 - [ ] Publish and unpublished to model.
-- [ ] Change subAdmin controls to return subAdmin when added.
+- [x] ~~Change subAdmin controls to return subAdmin when added.~~
 - [x] Result policy to survey model.  
 - [x] ~~Add category, approval logic~~ 
 - [x] ~~Add Albums to admin profile.~~
