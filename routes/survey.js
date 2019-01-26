@@ -10,6 +10,16 @@ const routes = [
     },
     {
         method: 'GET',
+        url: '/api/survey/unapproved',
+        handler: controller.getUnapprovedSurveys
+    },
+    {
+        method: 'GET',
+        url: '/api/survey/approved',
+        handler: controller.getApprovedSurveys
+    },
+    {
+        method: 'GET',
         url: '/api/survey/:id',
         handler: controller.getSurveyDetails
     },

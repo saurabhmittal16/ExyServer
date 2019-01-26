@@ -91,6 +91,10 @@ exports.details = async (req, res) => {
 
     try {
         const foundAdmin = await Admin.findOne({_id: id}, {children: 0, password: 0});
+        if (foundAdmin.parent) {
+            const foundParent = await Admin.findOne({_id: foundAdmin.parent});
+            foundAdmin.albums = foundParent.albums;
+        }
         return foundAdmin;
     } catch (err) {
         console.log(err);
