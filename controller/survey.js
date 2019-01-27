@@ -49,7 +49,7 @@ exports.getUnapprovedSurveys = async (req, res) => {
     const { page } = req.query;
 
     const options = {
-        page: page || 1,
+        page: parseInt(page, 10) || 1,
         limit: 2
     }
 
@@ -58,6 +58,7 @@ exports.getUnapprovedSurveys = async (req, res) => {
     }
 
     try {
+        console.log(options);
         const foundAdmin = await Admin.findOne({_id: id});
         
         // combine admin and sub-admin
@@ -75,7 +76,7 @@ exports.getUnapprovedSurveys = async (req, res) => {
         return {
             data: unApprovedSurveys,
             page: options.page,
-            last: unApprovedSurveys.length === 0
+            last: unApprovedSurveys.length < options.limit
         };
     } catch (err) {
         console.log(err);
@@ -88,7 +89,7 @@ exports.getApprovedSurveys = async (req, res) => {
     const { page } = req.query;
 
     const options = {
-        page: page || 1,
+        page: parseInt(page, 10) || 1,
         limit: 2
     }
 
@@ -114,7 +115,7 @@ exports.getApprovedSurveys = async (req, res) => {
         return {
             data: approvedSurveys,
             page: options.page,
-            last: unApprovedSurveys.length === 0
+            last: approvedSurveys.length < options.limit
         };
     } catch (err) {
         console.log(err);
