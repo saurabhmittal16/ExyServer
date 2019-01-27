@@ -58,7 +58,6 @@ exports.getUnapprovedSurveys = async (req, res) => {
     }
 
     try {
-        console.log(options);
         const foundAdmin = await Admin.findOne({_id: id});
         
         // combine admin and sub-admin
