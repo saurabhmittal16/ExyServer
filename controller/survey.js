@@ -68,9 +68,11 @@ exports.getUnapprovedSurveys = async (req, res) => {
             .find({
                 createdBy: { $in: surveyParents },
                 approved: false,
+                published: false
             }, { responses: 0, createdBy: 0, approved: 0 })
             .skip((options.page - 1) * options.limit)
-            .limit(options.limit);
+            .limit(options.limit)
+            .sort({_id: 1});
 
         return {
             data: unApprovedSurveys,
@@ -107,9 +109,11 @@ exports.getApprovedSurveys = async (req, res) => {
             .find({
                 createdBy: { $in: surveyParents },
                 approved: true,
+                published: false
             }, { responses: 0, createdBy: 0, approved: 0 })
             .skip((options.page - 1) * options.limit)
-            .limit(options.limit);
+            .limit(options.limit)
+            .sort({_id: -1});
 
         return {
             data: approvedSurveys,

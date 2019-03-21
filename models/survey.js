@@ -8,7 +8,14 @@ const surveySchema = new mongoose.Schema({
         option_text: String,
         option_image: String
     }],
-    approved: Boolean,
+    approved: {
+        type: Boolean,
+        default: false
+    },
+    published: {
+        type: Boolean,
+        default: false
+    },
     album: String,
     resultPolicy: String,
     createdBy: {
