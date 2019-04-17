@@ -4,7 +4,8 @@ const controller = require('../controller/response');
 const routes = [
     {
         method: 'POST',
-        url: '/api/survey/:id/response',
+        url: '/api/survey/response',
+        schema: schema.newResponse,
         handler: controller.newResponse
     }
 ]

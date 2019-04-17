@@ -96,7 +96,7 @@ Robo3T
 - [ ] Feed - live surveys
 - [x] List of all broadcasters that can be followed
 - [ ] User Profile
-- [ ] Register response
+- [x] Register response
 - [ ] Don't let answer again
 - [ ] Calculate result before sending response for first two result types
 - [x] Follow broadcaster

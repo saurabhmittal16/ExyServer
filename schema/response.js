@@ -6,15 +6,13 @@ module.exports = {
             type: 'object',
             properties: {
                 response: {
-                    type: {
-                        "anyOf": [
-                            {type: 'string'},
-                            {type: 'number'}
-                        ]
-                    }
+                    type: ['string', 'number']
+                },
+                survey: {
+                    type: 'string'
                 }
             },
-            required: ['surveyID']
+            required: ['response', 'survey']
         }
     }
 }

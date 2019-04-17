@@ -1,29 +1,36 @@
 const Survey = require('../models/survey');
 const Response = require('../models/response');
+const User = require('../models/user');
 
 exports.newResponse = async (req, res) => {
-    if (!req.decoded.isUser) {
+    const { survey, response } = req.body;
+    const { id, isUser } = req.decoded;
+    console.log(req.decoded);
+
+    if (!isUser) {
         return res.code(403);
     }
 
-    const surveyID = req.params.id;
-    const userID = req.body.id;
-    const response = req.body.response;
-
     try {
-        const foundSurvey = await Survey.findOne({_id: surveyID});
+        const foundSurvey = await Survey.findOne({_id: survey});
+        const foundUser = await User.findOne({_id: id});
+
         const now = new Date();
-        if (foundSurvey && foundSurvey.end.valueOf() > now.valueOf()) {
+
+        if (foundUser && foundSurvey && foundSurvey.end.valueOf() > now.valueOf()) {
             try {
                 const createdResponse = await Response.create({
-                    survey: surveyID,
-                    user: userID,
+                    survey: foundSurvey._id,
+                    user: foundUser._id,
                     response
                 });
 
                 if (createdResponse) {
                     foundSurvey.responses.push(createdResponse._id);
-                    foundSurvey.save();
+                    foundUser.responses.push(createdResponse._id);
+                    await foundSurvey.save();
+                    await foundUser.save();
+
                     return {
                         "message": "Response successfully recorded",
                         "success": true
