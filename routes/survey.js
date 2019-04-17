@@ -2,6 +2,7 @@ const schema = require('../schema/survey');
 const controller = require('../controller/survey');
 
 const routes = [
+    // Admin routes
     {
         method: 'POST',
         url: '/api/survey',
@@ -23,6 +24,7 @@ const routes = [
         url: '/api/survey/:id',
         handler: controller.getSurveyDetails
     },
+    // User routes
     {
         method: 'GET',
         url: '/api/survey/live',

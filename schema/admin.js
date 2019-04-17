@@ -38,5 +38,17 @@ module.exports = {
             },
             required: ['email', 'password', 'name', 'mobile', 'image']
         }
+    },
+
+    followAdmin: {
+        body: {
+            type: 'object',
+            properties: {
+                admin: {
+                    type: 'string',
+                },
+            },
+            required: ['admin']
+        }
     }
 }

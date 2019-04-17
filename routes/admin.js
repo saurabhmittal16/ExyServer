@@ -2,6 +2,7 @@ const schema = require('../schema/admin');
 const controller = require('../controller/admin');
 
 const routes = [
+    // Admin routes
     {
         method: 'POST',
         url: '/api/auth/admin/signup',
@@ -18,6 +19,18 @@ const routes = [
         method: 'GET',
         url: '/api/admin/details',
         handler: controller.details
+    },
+    // User routes
+    {
+        method: 'GET',
+        url: '/api/admin/follow',
+        handler: controller.getAdminsToFollow
+    },
+    {
+        method: 'POST',
+        url: '/api/admin/follow',
+        schema: schema.followAdmin,
+        handler: controller.followAdmin
     }
 ];
 

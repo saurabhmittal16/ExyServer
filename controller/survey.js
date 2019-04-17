@@ -150,19 +150,25 @@ exports.getLiveSurveys = async (req, res) => {
         return res.code(403);
     }
 
-    const now = new Date();
-    const surveys = await Survey.find({
-        start: { $lt: now },
-        end: { $gt: now },
-        published: true,
-        discarded: false
-    }, {
-        createdBy: 0,
-        album: 0,
-        responses: 0,
-        approved: 0,
-        published: 0
-    });
+    // To-Do: Return surveys by following broadcasters
+    try {
+        const now = new Date();
+        const surveys = await Survey.find({
+            start: { $lt: now },
+            end: { $gt: now },
+            published: true,
+            discarded: false
+        }, {
+            createdBy: 0,
+            album: 0,
+            responses: 0,
+            approved: 0,
+            published: 0
+        });
+    } catch(err) {
+        console.log(err);
+        return res.code(500);
+    }
 
     return surveys;
 }

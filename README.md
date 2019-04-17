@@ -1,6 +1,6 @@
 # SurveyServer-Django
 
-Node Server for the survey app
+Node Server for the survey app. Admin refers to the Broadcasters that add surveys and User refers to the users voting in the survey using the mobile app.
 
 ## Technologies-
 
@@ -94,9 +94,9 @@ Robo3T
 
 - [x] Deploy to GCP Compute Engine
 - [ ] Feed - live surveys
-- [ ] List of all broadcasters
+- [x] List of all broadcasters that can be followed
 - [ ] User Profile
 - [ ] Register response
 - [ ] Don't let answer again
 - [ ] Calculate result before sending response for first two result types
-- [ ] Follow broadcaster
+- [x] Follow broadcaster

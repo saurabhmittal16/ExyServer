@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const config = require('../config');
 const Admin = require('../models/admin');
+const User = require('../models/user');
 
 exports.login = async (req, res) => {
     const {email, password} = req.body;
@@ -99,5 +100,59 @@ exports.details = async (req, res) => {
     } catch (err) {
         console.log(err);
         return res.code(404);
+    }
+}
+
+exports.getAdminsToFollow = async (req, res) => {
+    // Get broadcasters that are not sub-admins and are not followed by the user
+    const { id } = req.decoded;
+    
+    try {
+        const foundUser = await User.findOne({_id: id});
+
+        const admins = await Admin.find({
+            parent: null,
+            _id: {
+                $nin: foundUser.following
+            }
+        }, {
+            children: 0,
+            password: 0,
+            albums: 0,
+            canApprove: 0
+        });
+        return admins;
+    } catch (err) {
+        console.log(err);
+        return res.code(500);
+    }
+}
+
+exports.followAdmin = async (req, res) => {
+    // Follow admin if not already following
+    const { admin } = req.body;
+    const { isUser, id } = req.decoded;
+
+    if (!isUser) {
+        return res.code(403);
+    }
+
+    try {
+        const foundUser = await User.findOne({_id: id});
+        if (!foundUser) {
+            return res.code(404);
+        } else {
+            // To-Do: check if "admin" is a valid mongo ID
+            if (!foundUser.following.includes(admin)) {
+                foundUser.following.push(admin);
+                await foundUser.save();
+            }
+            return {
+                "success": true
+            }
+        }
+    } catch (err) {
+        console.log(err);
+        return res.code(500);
     }
 }

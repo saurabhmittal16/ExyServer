@@ -26,6 +26,11 @@ const surveySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin'
     },
+    // To-Do: Is it required to fetch surveys
+    // createdParent: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Admin'
+    // },
     start: 'Date',
     end: 'Date',
     responses: [{
