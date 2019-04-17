@@ -110,18 +110,23 @@ exports.getAdminsToFollow = async (req, res) => {
     try {
         const foundUser = await User.findOne({_id: id});
 
-        const admins = await Admin.find({
-            parent: null,
-            _id: {
-                $nin: foundUser.following
-            }
-        }, {
-            children: 0,
-            password: 0,
-            albums: 0,
-            canApprove: 0
-        });
-        return admins;
+        if (foundUser) {
+            const admins = await Admin.find({
+                parent: null,
+                _id: {
+                    $nin: foundUser.following
+                }
+            }, {
+                children: 0,
+                password: 0,
+                albums: 0,
+                canApprove: 0
+            });
+            return admins;
+        } else {
+            console.log('No user found');
+            return res.code(404);    
+        }
     } catch (err) {
         console.log(err);
         return res.code(500);
@@ -140,6 +145,7 @@ exports.followAdmin = async (req, res) => {
     try {
         const foundUser = await User.findOne({_id: id});
         if (!foundUser) {
+            console.log('No user found');
             return res.code(404);
         } else {
             // To-Do: check if "admin" is a valid mongo ID

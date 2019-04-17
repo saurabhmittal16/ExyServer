@@ -85,9 +85,11 @@ exports.getSubAdmin = async (req, res) => {
             if (subAdmin.parent == loginId) {
                 return subAdmin
             } else {
+                console.log('Not authorized');
                 return res.code(403);
             }
         } else {
+            console.log('No subAdmin found');
             return res.code(404);
         }
     } catch (err) {

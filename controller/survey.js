@@ -61,25 +61,30 @@ exports.getUnapprovedSurveys = async (req, res) => {
     try {
         const foundAdmin = await Admin.findOne({_id: id});
         
-        // combine admin and sub-admin
-        const surveyParents = await foundAdmin.children.concat(id);
+        if (foundAdmin) {
+            // combine admin and sub-admin
+            const surveyParents = await foundAdmin.children.concat(id);
 
-        // surveys created by admin or his/her subadmins
-        const unApprovedSurveys = await Survey
-            .find({
-                createdBy: { $in: surveyParents },
-                approved: false,
-                published: false
-            }, { responses: 0, createdBy: 0, approved: 0 })
-            .skip((options.page - 1) * options.limit)
-            .limit(options.limit)
-            .sort({_id: 1});
+            // surveys created by admin or his/her subadmins
+            const unApprovedSurveys = await Survey
+                .find({
+                    createdBy: { $in: surveyParents },
+                    approved: false,
+                    published: false
+                }, { responses: 0, createdBy: 0, approved: 0 })
+                .skip((options.page - 1) * options.limit)
+                .limit(options.limit)
+                .sort({_id: 1});
 
-        return {
-            data: unApprovedSurveys,
-            page: options.page,
-            last: unApprovedSurveys.length < options.limit
-        };
+            return {
+                data: unApprovedSurveys,
+                page: options.page,
+                last: unApprovedSurveys.length < options.limit
+            };
+        } else {
+            console.log('Admin not found');
+            return res.code(404);
+        }
     } catch (err) {
         console.log(err);
         return res.code(500);
@@ -102,25 +107,30 @@ exports.getApprovedSurveys = async (req, res) => {
     try {
         const foundAdmin = await Admin.findOne({_id: id});
         
-        // combine admin and sub-admin
-        const surveyParents = await foundAdmin.children.concat(id);
+        if (foundAdmin) {
+            // combine admin and sub-admin
+            const surveyParents = await foundAdmin.children.concat(id);
 
-        // surveys created by admin or his/her subadmins
-        const approvedSurveys = await Survey
-            .find({
-                createdBy: { $in: surveyParents },
-                approved: true,
-                published: false
-            }, { responses: 0, createdBy: 0, approved: 0 })
-            .skip((options.page - 1) * options.limit)
-            .limit(options.limit)
-            .sort({_id: -1});
+            // surveys created by admin or his/her subadmins
+            const approvedSurveys = await Survey
+                .find({
+                    createdBy: { $in: surveyParents },
+                    approved: true,
+                    published: false
+                }, { responses: 0, createdBy: 0, approved: 0 })
+                .skip((options.page - 1) * options.limit)
+                .limit(options.limit)
+                .sort({_id: -1});
 
-        return {
-            data: approvedSurveys,
-            page: options.page,
-            last: approvedSurveys.length < options.limit
-        };
+            return {
+                data: approvedSurveys,
+                page: options.page,
+                last: approvedSurveys.length < options.limit
+            };
+        } else {
+            console.log('Admin not found');
+            return res.code(404);
+        }
     } catch (err) {
         console.log(err);
         return res.code(500);
@@ -139,6 +149,7 @@ exports.getSurveyDetails = async (req, res) => {
             responses: 0, 
             createdBy: 0
         });
+
         if (survey) {
             return survey;
         } else {
@@ -221,6 +232,7 @@ exports.getSurveyDetailsUser = async (req, res) => {
                 response: foundUser.responses[0]
             }
         } else {
+            console.log('Either survey or user not found');
             return res.code(404);
         }
     } catch (error) {

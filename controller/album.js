@@ -21,7 +21,7 @@ exports.addNewAlbum = async (req, res) => {
             return foundAdmin.albums;
         } else {
             console.log("Not a valid admin");
-            return res.code(401);
+            return res.code(404);
         }
     } catch (err) {
         console.log(err);

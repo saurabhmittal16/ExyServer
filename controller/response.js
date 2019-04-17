@@ -48,6 +48,7 @@ exports.newResponse = async (req, res) => {
                         "success": true
                     }
                 } else {
+                    console.log('Survey creation failed');
                     return res.code(500);
                 }
             } catch (error) {
@@ -55,6 +56,7 @@ exports.newResponse = async (req, res) => {
                 return res.code(500);
             }
         } else {
+            console.log('Either user or survey not found');
             return res.code(404);
         }
     } catch (error) {
