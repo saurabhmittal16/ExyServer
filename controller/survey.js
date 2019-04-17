@@ -1,5 +1,6 @@
 const Admin = require('../models/admin');
 const Survey = require('../models/survey');
+const User = require('../models/user');
 
 exports.newSurvey = async (req, res) => {
     const {question, image, type, start, end, options, approved, album, resultPolicy} = req.body;
@@ -130,7 +131,14 @@ exports.getSurveyDetails = async (req, res) => {
     const id = req.params.id;
 
     try {
-        const survey = await Survey.findOne({_id: id}, {responses: 0, createdBy: 0});
+        const survey = await Survey.findOne({
+            _id: id,
+            published: true,
+            discarded: false
+        }, {
+            responses: 0, 
+            createdBy: 0
+        });
         if (survey) {
             return survey;
         } else {
@@ -171,4 +179,52 @@ exports.getLiveSurveys = async (req, res) => {
     }
 
     return surveys;
+}
+
+exports.getSurveyDetailsUser = async (req, res) => {
+    const surveyID = req.params.id;
+    const { isUser, id } = req.decoded;
+
+    if (!isUser) {
+        return res.code(403);
+    }
+
+    try {
+        const foundUser = await User.findOne({
+            _id: id
+        }).populate({
+            path: 'responses',
+            match: { survey: surveyID },
+            select: 'response'
+        });
+
+        const survey = await Survey.findOne({
+            _id: surveyID,
+            published: true,
+            discarded: false,
+        }, {
+            createdBy: 0,
+            approved: 0,
+            published: 0,
+            discarded: 0,
+            responses: 0,
+            album: 0
+        });
+
+        // first query populates user responses and matches responses with given survey ID
+
+        if (survey && foundUser) {
+            // if the user has response for the given survey, return response info else return hasResponded false
+            return {
+                ...survey._doc,
+                hasResponded: foundUser.responses.length === 0 ? false : true,
+                response: foundUser.responses[0]
+            }
+        } else {
+            return res.code(404);
+        }
+    } catch (error) {
+        console.log(error);
+        return res.code(500);
+    }
 }

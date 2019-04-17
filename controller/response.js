@@ -11,13 +11,15 @@ exports.newResponse = async (req, res) => {
         return res.code(403);
     }
 
+    // To-Do: check if user has responded to this survey
+
     try {
         const foundSurvey = await Survey.findOne({_id: survey});
         const foundUser = await User.findOne({_id: id});
 
         const now = new Date();
 
-        if (foundUser && foundSurvey && foundSurvey.end.valueOf() > now.valueOf()) {
+        if (foundUser && foundSurvey && foundSurvey.published && !foundSurvey.discarded && foundSurvey.end.valueOf() > now.valueOf()) {
             try {
                 const createdResponse = await Response.create({
                     survey: foundSurvey._id,
