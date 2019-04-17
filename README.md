@@ -97,6 +97,6 @@ Robo3T
 - [x] List of all broadcasters that can be followed
 - [ ] User Profile
 - [x] Register response
-- [ ] Don't let answer again
+- [x] Don't let answer again
 - [ ] Calculate result before sending response for first two result types
 - [x] Follow broadcaster

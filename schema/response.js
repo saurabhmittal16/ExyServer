@@ -1,5 +1,3 @@
-// To-Do : Figure out the valid schema
-
 module.exports = {
     newResponse: {
         body: {

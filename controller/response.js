@@ -11,11 +11,21 @@ exports.newResponse = async (req, res) => {
         return res.code(403);
     }
 
-    // To-Do: check if user has responded to this survey
-
     try {
         const foundSurvey = await Survey.findOne({_id: survey});
-        const foundUser = await User.findOne({_id: id});
+        const foundUser = await User.findOne({
+            _id: id
+        }).populate({
+            path: 'responses',
+            match: { survey: survey },
+            select: 'response'
+        });
+
+        if (foundUser & foundUser.responses.length > 0) {
+            return res.code(500).send({
+                "message": "You have already responded to this survey"
+            });
+        }
 
         const now = new Date();
 
