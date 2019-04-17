@@ -89,3 +89,21 @@ Robo3T
 - [x] Add category, approval logic  
 - [x] Add Albums to admin profile  
 - [x] Validate start is before end when adding survey
+
+## Mobile App Endpoints -
+
+- Deploy to GCP Compute Engine
+
+- Feed - live surveys
+
+- List of all broadcasters
+
+- User Profile
+
+- Register response
+
+- Don't let answer again
+
+- Calculate result before sending response for first two result types
+
+- Follow broadcaster

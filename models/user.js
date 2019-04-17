@@ -11,6 +11,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true
     }
+    // To-Do : Add following broadcasters
+    // To-Do : Add responses
 }, {
     versionKey: false
 });
