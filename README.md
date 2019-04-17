@@ -92,18 +92,11 @@ Robo3T
 
 ## Mobile App Endpoints -
 
-- Deploy to GCP Compute Engine
-
-- Feed - live surveys
-
-- List of all broadcasters
-
-- User Profile
-
-- Register response
-
-- Don't let answer again
-
-- Calculate result before sending response for first two result types
-
-- Follow broadcaster
+- [x] Deploy to GCP Compute Engine
+- [ ] Feed - live surveys
+- [ ] List of all broadcasters
+- [ ] User Profile
+- [ ] Register response
+- [ ] Don't let answer again
+- [ ] Calculate result before sending response for first two result types
+- [ ] Follow broadcaster

@@ -10,9 +10,15 @@ const userSchema = new mongoose.Schema({
     mobile: {
         type: String,
         unique: true
-    }
-    // To-Do : Add following broadcasters
-    // To-Do : Add responses
+    },
+    following: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Admin'
+    }],
+    responses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Response'
+    }]
 }, {
     versionKey: false
 });

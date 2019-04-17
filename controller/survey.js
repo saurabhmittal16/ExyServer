@@ -142,3 +142,27 @@ exports.getSurveyDetails = async (req, res) => {
         return res.code(500);
     }
 }
+
+exports.getLiveSurveys = async (req, res) => {
+    const {isUser, id} = req.decoded;
+
+    if (!isUser) {
+        return res.code(403);
+    }
+
+    const now = new Date();
+    const surveys = await Survey.find({
+        start: { $lt: now },
+        end: { $gt: now },
+        published: true,
+        discarded: false
+    }, {
+        createdBy: 0,
+        album: 0,
+        responses: 0,
+        approved: 0,
+        published: 0
+    });
+
+    return surveys;
+}

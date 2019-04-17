@@ -16,6 +16,10 @@ const surveySchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    discarded: {
+        type: Boolean,
+        default: false
+    },
     album: String,
     resultPolicy: String,
     createdBy: {

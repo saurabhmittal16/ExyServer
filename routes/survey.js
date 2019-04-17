@@ -23,6 +23,11 @@ const routes = [
         url: '/api/survey/:id',
         handler: controller.getSurveyDetails
     },
+    {
+        method: 'GET',
+        url: '/api/survey/live',
+        handler: controller.getLiveSurveys
+    }
 ];
 
 module.exports = routes;
