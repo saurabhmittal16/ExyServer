@@ -106,6 +106,12 @@ exports.details = async (req, res) => {
 exports.getAdminsToFollow = async (req, res) => {
     // Get broadcasters that are not sub-admins and are not followed by the user
     const { id } = req.decoded;
+    const { page } = req.query;
+
+    const options = {
+        page: parseInt(page, 10) || 1,
+        limit: 1
+    }
     
     try {
         const foundUser = await User.findOne({_id: id});
@@ -121,8 +127,16 @@ exports.getAdminsToFollow = async (req, res) => {
                 password: 0,
                 albums: 0,
                 canApprove: 0
-            });
-            return admins;
+            })
+            .skip((options.page - 1) * options.limit)
+            .limit(options.limit);
+
+            return {
+                data: admins,
+                page: options.page,
+                last: admins.length < options.limit
+            };
+
         } else {
             console.log('No user found');
             return res.code(404);    
