@@ -13,10 +13,6 @@ const routes = require('./routes/index');
 
 app.use(cors());
 
-app.register(require('fastify-url-data'), (err) => {
-    if (err) throw err
-});
-
 app.addHook('preHandler', (request, reply, next) => {
     const urlData = request.urlData();
     if (

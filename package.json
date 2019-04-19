@@ -11,13 +11,13 @@
         "bcryptjs": "^2.4.3",
         "boom": "^7.3.0",
         "cors": "^2.8.5",
-        "fastify": "^1.13.1",
-        "fastify-swagger": "^0.16.1",
-        "fastify-url-data": "^2.2.0",
-        "jsonwebtoken": "^8.4.0",
-        "mongoose": "^5.3.16"
+        "fastify": "^2.3.0",
+        "fastify-swagger": "^2.3.2",
+        "fastify-url-data": "^2.3.0",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.5.2"
     },
     "devDependencies": {
-        "nodemon": "^1.18.8"
+        "nodemon": "^1.18.11"
     }
 }
