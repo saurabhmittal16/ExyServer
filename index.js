@@ -13,6 +13,8 @@ const routes = require('./routes/index');
 
 app.use(cors());
 
+app.register(require('fastify-url-data'), (err) => {});
+
 app.addHook('preHandler', (request, reply, next) => {
     const urlData = request.urlData();
     if (
@@ -31,7 +33,8 @@ app.addHook('preHandler', (request, reply, next) => {
             token = token.split(" ")[1];
             jsonwebtoken.verify(token, config.secret, (err, decoded) => {
                 if (err) {
-                    console.log("Verification failed", err);
+                    console.log("Verification failed");
+                    // console.log(err);
                     reply.code(401)
                     next(new Error("Token expired"));
                 } else {
