@@ -2,6 +2,7 @@ const Admin = require('../models/admin');
 const Survey = require('../models/survey');
 const User = require('../models/user');
 
+// Admin Dashboard
 exports.newSurvey = async (req, res) => {
     const {question, image, type, start, end, options, approved, album, resultPolicy} = req.body;
     const {email, id, isAdmin} = req.decoded;
@@ -162,6 +163,7 @@ exports.getSurveyDetails = async (req, res) => {
     }
 }
 
+// User App
 exports.getLiveSurveys = async (req, res) => {
     const {isUser, id} = req.decoded;
 

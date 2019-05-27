@@ -88,6 +88,7 @@ exports.signup = async (req, res) => {
 }
 
 exports.details = async (req, res) => {
+    // To-Do: Which albums should be returned for a sub-admin
     const { id } = req.decoded;
 
     try {
@@ -162,8 +163,10 @@ exports.followAdmin = async (req, res) => {
             console.log('No user found');
             return res.code(404);
         } else {
-            // To-Do: check if "admin" is a valid mongo ID
-            if (!foundUser.following.includes(admin)) {
+            const foundAdmin = await Admin.findOne({_id: admin});
+
+            // Check if admin exists, if it's a super admin and the user is not already following the admin
+            if (foundAdmin && !foundAdmin.parent && !foundUser.following.includes(admin)) {
                 foundUser.following.push(admin);
                 await foundUser.save();
             }

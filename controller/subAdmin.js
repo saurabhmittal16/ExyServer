@@ -98,7 +98,7 @@ exports.getSubAdmin = async (req, res) => {
     }
 }
 
-//Update details of a single sub-admin
+// Update details of a single sub-admin
 exports.updateSubAdmin = async (req, res) => {
     // Discuss update
     return null;
