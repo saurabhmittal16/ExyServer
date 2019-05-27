@@ -13,11 +13,12 @@ mongoose.connect(mongo_url, {useNewUrlParser: true})
             data.forEach(
                 async survey => {
                     survey.end = new Date('12 Dec 2019');
-                    survey.published = true;
+                    survey.published = false;
                     survey.discarded = false;
                     await survey.save();
                 }
             )
         }
     )
+    .then(() => process.exit(0))
     .catch(err => console.log(err.message));
