@@ -39,7 +39,7 @@ exports.newSurvey = async (req, res) => {
         });
 
         if (createdSurvey) {
-            console.log(createdSurvey);
+            console.log("Survey created");
             return {
                 "success": true,
                 "message": "Survey added",
@@ -79,9 +79,15 @@ exports.getUnapprovedSurveys = async (req, res) => {
             const unApprovedSurveys = await Survey
                 .find({
                     createdBy: { $in: surveyParents },
-                    approved: false,
-                    published: false
-                }, { responses: 0, createdBy: 0, createdParent: 0, approved: 0 })
+                    state: 0
+                }, { 
+                    responses: 0, 
+                    createdBy: 0, 
+                    createdParent: 0,
+                    options: 0,
+                    state: 0,
+                    resultPolicy: 0
+                })
                 .skip((options.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort({_id: 1});
@@ -125,9 +131,15 @@ exports.getApprovedSurveys = async (req, res) => {
             const approvedSurveys = await Survey
                 .find({
                     createdBy: { $in: surveyParents },
-                    approved: true,
-                    published: false
-                }, { responses: 0, createdBy: 0, createdParent: 0, approved: 0 })
+                    state: 1,
+                }, { 
+                    responses: 0, 
+                    createdBy: 0, 
+                    createdParent: 0,
+                    options: 0,
+                    state: 0,
+                    resultPolicy: 0
+                })
                 .skip((options.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort({_id: -1});
@@ -153,8 +165,6 @@ exports.getSurveyDetails = async (req, res) => {
     try {
         const survey = await Survey.findOne({
             _id: id,
-            published: true,
-            discarded: false
         }, {
             responses: 0, 
             createdBy: 0
@@ -199,16 +209,13 @@ exports.getLiveSurveys = async (req, res) => {
             start: { $lt: now },
             end: { $gt: now },
             createdParent: { $in: foundUser.following },
-            published: false,
-            discarded: false,
-            approved: true  
+            state: 2 
         }, {
             createdBy: 0,
             createdParent: 0,
             album: 0,
             responses: 0,
-            approved: 0,
-            published: 0
+            state: 0
         })
         .skip((options.page - 1) * options.limit)
         .limit(options.limit)
@@ -244,8 +251,7 @@ exports.getSurveyDetailsUser = async (req, res) => {
 
         const survey = await Survey.findOne({
             _id: surveyID,
-            published: true,
-            discarded: false,
+            state: 2
         }, {
             createdBy: 0,
             createdParent: 0,

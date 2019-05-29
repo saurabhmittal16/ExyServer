@@ -8,17 +8,9 @@ const surveySchema = new mongoose.Schema({
         option_text: String,
         option_image: String
     }],
-    approved: {
-        type: Boolean,
-        default: false
-    },
-    published: {
-        type: Boolean,
-        default: false
-    },
-    discarded: {
-        type: Boolean,
-        default: false
+    state: {
+        type: Number,
+        default: 0
     },
     album: String,
     resultPolicy: String,
@@ -39,5 +31,11 @@ const surveySchema = new mongoose.Schema({
 }, {
     versionKey: false
 });
+
+// state ->
+//  0 : unapproved
+//  1 : approved
+//  2 : published
+// -1 : discarded
 
 module.exports = mongoose.model('Survey', surveySchema);
