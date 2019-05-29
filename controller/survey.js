@@ -16,6 +16,13 @@ exports.newSurvey = async (req, res) => {
     }
 
     try {
+        const foundAdmin = await Admin.findOne({_id: id});
+        
+        if (!foundAdmin) {
+            console.log("No such admin exists");
+            return res.code(500);
+        }
+
         const createdSurvey = await Survey.create({
             album,
             resultPolicy,
@@ -26,6 +33,8 @@ exports.newSurvey = async (req, res) => {
             end,
             options,
             createdBy: id,
+            // if admin has a parent ie it's a sub-admin, store parent as createdParent of survey
+            createdParent: foundAdmin.parent ? foundAdmin.parent : id,
             approved: approved
         });
 

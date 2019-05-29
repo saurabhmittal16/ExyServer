@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const mongo_url = "mongodb://localhost:27017/exxy";
 
 const Survey = require('../models/survey');
+const Admin = require('../models/admin');
 
 mongoose.connect(mongo_url, {useNewUrlParser: true})
     .then(
@@ -12,13 +13,14 @@ mongoose.connect(mongo_url, {useNewUrlParser: true})
             const data = await Survey.find({});
             data.forEach(
                 async survey => {
-                    survey.end = new Date('12 Dec 2019');
-                    survey.published = false;
-                    survey.discarded = false;
+                    const foundAdmin = await Admin.findOne({_id: survey.createdBy});
+                    survey.createdParent = foundAdmin.parent ? foundAdmin.parent : foundAdmin._id;
+                    // survey.end = new Date('12 Dec 2019');
+                    // survey.published = false;
+                    // survey.discarded = false;
                     await survey.save();
                 }
             )
         }
     )
-    .then(() => process.exit(0))
     .catch(err => console.log(err.message));

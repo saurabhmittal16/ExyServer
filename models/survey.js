@@ -26,13 +26,10 @@ const surveySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Admin'
     },
-    // To-Do: Is it required to fetch surveys
-    // Yes, to get surveys from super-admins that a user follows
-    // Eliminates the need for searching for surveys by children for super-admins
-    // createdParent: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Admin'
-    // },
+    createdParent: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Admin'
+    },
     start: 'Date',
     end: 'Date',
     responses: [{
