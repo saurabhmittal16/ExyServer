@@ -148,6 +148,53 @@ exports.getAdminsToFollow = async (req, res) => {
     }
 }
 
+exports.getFollowingAdmins = async (req, res) => {
+    // Fetch admins that a user is following
+    const { page } = req.query;
+    const { isUser, id } = req.decoded;
+
+    const options = {
+        page: parseInt(page, 10) || 1,
+        limit: 2
+    }
+
+    if (!isUser) {
+        return res.code(403);
+    }
+
+    try {
+        const foundUser = await User.findOne({_id: id});
+
+        if (!foundUser) {
+            console.log('No user found');
+            return res.code(404);
+        }
+
+        const following = foundUser.following;
+        const start = (options.page - 1) * options.limit;
+
+        const data = await Admin.find({
+            _id : {
+                $in: following.slice(start, start + options.limit)
+            }
+        }, {
+            children: 0,
+            canApprove: 0,
+            password: 0,
+            albums: 0
+        });
+        
+        return {
+            data: data,
+            page: options.page,
+            last: data.length < options.limit
+        };
+    } catch (err) {
+        console.log(err);
+        return res.code(500);
+    }
+}
+
 exports.followAdmin = async (req, res) => {
     // Follow admin if not already following
     const { admin } = req.body;

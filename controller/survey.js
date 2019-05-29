@@ -81,7 +81,7 @@ exports.getUnapprovedSurveys = async (req, res) => {
                     createdBy: { $in: surveyParents },
                     approved: false,
                     published: false
-                }, { responses: 0, createdBy: 0, approved: 0 })
+                }, { responses: 0, createdBy: 0, createdParent: 0, approved: 0 })
                 .skip((options.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort({_id: 1});
@@ -127,7 +127,7 @@ exports.getApprovedSurveys = async (req, res) => {
                     createdBy: { $in: surveyParents },
                     approved: true,
                     published: false
-                }, { responses: 0, createdBy: 0, approved: 0 })
+                }, { responses: 0, createdBy: 0, createdParent: 0, approved: 0 })
                 .skip((options.page - 1) * options.limit)
                 .limit(options.limit)
                 .sort({_id: -1});
@@ -204,6 +204,7 @@ exports.getLiveSurveys = async (req, res) => {
             approved: true  
         }, {
             createdBy: 0,
+            createdParent: 0,
             album: 0,
             responses: 0,
             approved: 0,
@@ -247,6 +248,7 @@ exports.getSurveyDetailsUser = async (req, res) => {
             discarded: false,
         }, {
             createdBy: 0,
+            createdParent: 0,
             approved: 0,
             published: 0,
             discarded: 0,

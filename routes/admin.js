@@ -27,12 +27,16 @@ const routes = [
         handler: controller.getAdminsToFollow
     },
     {
+        method: 'GET',
+        url: '/api/admin/following',
+        handler: controller.getFollowingAdmins
+    },
+    {
         method: 'POST',
         url: '/api/admin/follow',
         schema: schema.followAdmin,
         handler: controller.followAdmin
-    },
-    // To-Do: /api/user/admin/follow - get admins followed by a user
+    }
 ];
 
 module.exports = routes;
