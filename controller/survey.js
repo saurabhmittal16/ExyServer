@@ -175,32 +175,53 @@ exports.getSurveyDetails = async (req, res) => {
 // User App
 exports.getLiveSurveys = async (req, res) => {
     const {isUser, id} = req.decoded;
+    const { page } = req.query;
 
     if (!isUser) {
         return res.code(403);
     }
 
-    // To-Do: Return surveys by following broadcasters
+    const options = {
+        page: parseInt(page, 10) || 1,
+        limit: 2
+    }
+
     try {
+        const foundUser = await User.findOne({_id: id});
+
+        if (!foundUser) {
+            console.log("No user found");
+            return res.code(500);
+        }
+
         const now = new Date();
         const surveys = await Survey.find({
             start: { $lt: now },
             end: { $gt: now },
-            published: true,
-            discarded: false
+            createdParent: { $in: foundUser.following },
+            published: false,
+            discarded: false,
+            approved: true  
         }, {
             createdBy: 0,
             album: 0,
             responses: 0,
             approved: 0,
             published: 0
-        });
+        })
+        .skip((options.page - 1) * options.limit)
+        .limit(options.limit)
+        .sort({_id: -1});
+
+        return {
+            data: surveys,
+            page: options.page,
+            last: surveys.length < options.limit
+        };        
     } catch(err) {
         console.log(err);
         return res.code(500);
     }
-
-    return surveys;
 }
 
 exports.getSurveyDetailsUser = async (req, res) => {

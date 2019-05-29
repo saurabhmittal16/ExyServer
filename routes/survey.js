@@ -27,7 +27,7 @@ const routes = [
     // User routes
     {
         method: 'GET',
-        url: '/api/user/survey/live',
+        url: '/api/user/survey-live',
         handler: controller.getLiveSurveys
     },
     {
