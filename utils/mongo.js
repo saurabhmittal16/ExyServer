@@ -13,11 +13,12 @@ mongoose.connect(mongo_url, {useNewUrlParser: true})
             const data = await Survey.find({});
             data.forEach(
                 async survey => {
-                    const foundAdmin = await Admin.findOne({_id: survey.createdBy});
-                    survey.createdParent = foundAdmin.parent ? foundAdmin.parent : foundAdmin._id;
+                    // const foundAdmin = await Admin.findOne({_id: survey.createdBy});
+                    // survey.createdParent = foundAdmin.parent ? foundAdmin.parent : foundAdmin._id;
                     // survey.end = new Date('12 Dec 2019');
                     // survey.published = false;
                     // survey.discarded = false;
+                    // survey.state = Math.random() > 0.5 ? 2 : 0;
                     await survey.save();
                 }
             )
