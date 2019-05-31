@@ -83,20 +83,12 @@ Robo3T
 
 ## To-Do -  
 
-- [x] Publish and unpublished to model  
-- [x] Change subAdmin controls to return subAdmin when added  
-- [x] Result policy to survey model  
-- [x] Add category, approval logic  
-- [x] Add Albums to admin profile  
-- [x] Validate start is before end when adding survey
+- [ ] Implement searching for user and admin - search by question
+- [ ] Calculate result according to the various policies
+- [ ] Add image upload
 
 ## Mobile App Endpoints -
 
-- [x] Deploy to GCP Compute Engine
 - [ ] Feed - live surveys
-- [x] List of all broadcasters that can be followed
 - [ ] User Profile
-- [x] Register response
-- [x] Don't let answer again
 - [ ] Calculate result before sending response for first two result types
-- [x] Follow broadcaster
