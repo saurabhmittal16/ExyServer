@@ -39,7 +39,7 @@ Robo3T
 
 ## Installation -
 
-1) Install NodeJS v8.11.3, MongoDB v3.6.9
+1) Install NodeJS v10.16.0, MongoDB v3.6.9
 2) Clone the repository using git
 3) Run the mongod service  
    For Linux -
