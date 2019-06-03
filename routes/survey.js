@@ -26,6 +26,11 @@ const routes = [
     },
     {
         method: 'GET',
+        url: '/api/survey/discarded',
+        handler: controller.getDiscardedSurveys
+    },
+    {
+        method: 'GET',
         url: '/api/survey/:id',
         handler: controller.getSurveyDetails
     },

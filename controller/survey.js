@@ -211,6 +211,58 @@ exports.getPublishedSurveys = async (req, res) => {
     }
 }
 
+exports.getDiscardedSurveys = async (req, res) => {
+    const { email, id, isAdmin, isUser } = req.decoded;
+    const { page } = req.query;
+
+    const options = {
+        page: parseInt(page, 10) || 1,
+        limit: 2
+    }
+
+    if (isUser || !isAdmin) {
+        return res.code(403);
+    }
+
+    try {
+        const foundAdmin = await Admin.findOne({_id: id});
+        
+        if (foundAdmin) {
+            // combine admin and sub-admin
+            const surveyParents = await foundAdmin.children.concat(id);
+
+            // surveys created by admin or his/her subadmins
+            const discardedSurveys = await Survey
+                .find({
+                    createdBy: { $in: surveyParents },
+                    state: -1,
+                }, { 
+                    responses: 0, 
+                    createdBy: 0, 
+                    createdParent: 0,
+                    options: 0,
+                    state: 0,
+                    resultPolicy: 0
+                })
+                .skip((options.page - 1) * options.limit)
+                .limit(options.limit)
+                .sort({_id: -1});
+
+            return {
+                data: discardedSurveys,
+                page: options.page,
+                last: discardedSurveys.length < options.limit
+            };
+        } else {
+            console.log('Admin not found');
+            return res.code(404);
+        }
+    } catch (err) {
+        console.log(err);
+        return res.code(500);
+    }
+}
+
 exports.getSurveyDetails = async (req, res) => {
     const id = req.params.id;
 
