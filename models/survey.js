@@ -32,6 +32,21 @@ const surveySchema = new mongoose.Schema({
     versionKey: false
 });
 
+surveySchema.index({
+    question: 'text',
+    type: 'text',
+    options: 'text',
+    album: 'text'
+}, {
+    name: 'TextIndex',
+    weight: {
+        question: 10,
+        options: 5,
+        album: 3,
+        type: 1
+    }
+});
+
 // state ->
 //  0 : unapproved
 //  1 : approved
